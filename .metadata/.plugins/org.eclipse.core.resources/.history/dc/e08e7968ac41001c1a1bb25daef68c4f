@@ -1,0 +1,42 @@
+package com.revature.controller;
+
+import com.revature.dto.EditFirstNameDto;
+import com.revature.dto.EditLastNameDto;
+import com.revature.dto.EditAgeDto;
+import com.revature.dto.EditAddressDto;
+import com.revature.dto.EditPhoneNumberDto;
+import com.revature.model.ClientModel;
+import com.revature.model.AccountModel;
+
+import java.util.List;
+
+import com.revature.dto.AddOrUpdateClientDTO;
+import com.revature.dto.AddOrUpdateAccountDTO;
+import com.revature.exceptions.InvalidParameter;
+import com.revature.exceptions.ClientNotFound;
+import com.revature.exceptions.AccountNotFound;
+import com.revature.service.ClientService;
+import com.revature.service.AccountService;
+
+import io.javalin.Javalin;
+import io.javalin.http.Handler;
+
+public class AccountClientController {
+	
+	private ClientService clientService;
+	private AccountService accountService;
+	
+	public AccountClientController() {
+		this.clientService = new ClientService();
+		this.accountService = new AccountService();
+	}
+	
+	private Handler editClientFirstName = (ctx) -> {
+		
+	};
+	
+	public void registerEndpoints(Javalin app) {
+		app.patch("client/{id}/firstname", editClientFirstName);
+	}
+
+}

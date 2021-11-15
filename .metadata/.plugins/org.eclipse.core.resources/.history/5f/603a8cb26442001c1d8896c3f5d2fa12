@@ -1,0 +1,217 @@
+package com.revature.controller;
+
+import com.revature.dto.EditFirstNameDto;
+import com.revature.dto.EditLastNameDto;
+import com.revature.dto.EditAgeDto;
+import com.revature.dto.EditAddressDto;
+import com.revature.dto.EditPhoneNumberDto;
+import com.revature.dto.EditNumberDto;
+import com.revature.dto.EditTypeDto;
+import com.revature.dto.EditAmountDto;
+import com.revature.model.ClientModel;
+import com.revature.model.AccountModel;
+
+import java.util.List;
+
+import com.revature.dto.AddOrUpdateClientDTO;
+import com.revature.dto.AddOrUpdateAccountDTO;
+import com.revature.exceptions.InvalidParameter;
+import com.revature.exceptions.ClientNotFound;
+import com.revature.exceptions.AccountNotFound;
+import com.revature.service.ClientService;
+import com.revature.service.AccountService;
+
+import io.javalin.Javalin;
+import io.javalin.http.Handler;
+
+public class AccountClientController {
+	
+	private ClientService clientService;
+	private AccountService accountService;
+	
+	public AccountClientController() {
+		this.clientService = new ClientService();
+		this.accountService = new AccountService();
+	}
+	
+	private Handler editClientFirstName = (ctx) -> {
+		String clientId = ctx.pathParam("id");
+		int id = Integer.parseInt(clientId);
+		
+		EditFirstNameDto dto = ctx.bodyAsClass(EditFirstNameDto.class);
+		ClientModel clientEdited = this.clientService.editClientsFirstName(clientId, dto.getFirstName());
+		
+		ctx.json(clientEdited);
+	};
+	
+	private Handler editClientLastName = (ctx) -> {
+		String clientId = ctx.pathParam("id");
+		int id = Integer.parseInt(clientId);
+		
+		EditLastNameDto dto = ctx.bodyAsClass(EditLastNameDto.class);
+		ClientModel clientEdited = this.clientService.editClientsLastName(clientId, dto.getLastName());
+		
+		ctx.json(clientEdited);
+		
+	};
+	
+	private Handler editClientAge = (ctx) -> {
+		String clientId = ctx.pathParam("id");
+		int id = Integer.parseInt(clientId);
+		
+		EditAgeDto dto = ctx.bodyAsClass(EditAgeDto.class);
+		ClientModel clientEdited = this.clientService.editClientsAge(clientId, dto.getAge());
+		
+		ctx.json(clientEdited);
+		
+	};
+	
+	private Handler editClientAddress = (ctx) -> {
+		String clientId = ctx.pathParam("id");
+		int id = Integer.parseInt(clientId);
+		
+		EditAddressDto dto = ctx.bodyAsClass(EditAddressDto.class);
+		ClientModel clientEdited = this.clientService.editClientsAddress(clientId, dto.getAddress());
+		
+		ctx.json(clientEdited);
+		
+	};
+	
+	private Handler editClientPhoneNumber = (ctx) -> {
+		String clientId = ctx.pathParam("id");
+		int id = Integer.parseInt(clientId);
+		
+		EditPhoneNumberDto dto = ctx.bodyAsClass(EditPhoneNumberDto.class);
+		ClientModel clientEdited = this.clientService.editClientsPhoneNumber(clientId, dto.getPhoneNumber());
+		
+		ctx.json(clientEdited);
+		
+	};
+	
+	private Handler editAccountNumber = (ctx) -> {
+		String accountId = ctx.pathParam("id");
+		int id = Integer.parseInt(accountId);
+		
+		EditNumberDto dto = ctx.bodyAsClass(EditNumberDto.class);
+		AccountModel accountEdited = this.accountService.editAccountNumber(accountId, dto.getNumber());
+		
+		ctx.json(accountEdited);
+	};
+	
+	private Handler editAccountType = (ctx) -> {
+		String accountId = ctx.pathParam("id");
+		int id = Integer.parseInt(accountId);
+		
+		EditTypeDto dto = ctx.bodyAsClass(EditTypeDto.class);
+		AccountModel accountEdited = this.accountService.editAccountType(accountId, dto.getType());
+		
+		ctx.json(accountEdited);
+	};
+	
+	private Handler editAccountAmount = (ctx) -> {
+		String accountId = ctx.pathParam("id");
+		int id = Integer.parseInt(accountId);
+		
+		EditAmountDto dto = ctx.bodyAsClass(EditAmountDto.class);
+		AccountModel accountEdited = this.accountService.editAccountAmount(accountId, dto.getAmount());
+		
+		ctx.json(accountEdited);
+		
+	};
+	
+	private Handler addClient = (ctx) -> {
+		AddOrUpdateClientDTO dto = ctx.bodyAsClass(AddOrUpdateClientDTO.class);
+		
+		ClientModel c = this.clientService.addClient(dto);
+		
+		ctx.json(c);
+		ctx.status(201);
+	};
+	
+	private Handler getAllClients = (ctx) -> {
+		List<ClientModel> clients = this.clientService.getAllClients();
+		
+		ctx.json(clients);
+	};
+	
+	private Handler getClientById = (ctx) -> {
+		String id = ctx.pathParam("id");
+		
+		try {
+			ClientModel c = this.clientService.getClientById(id);
+			
+			ctx.json(c);
+		} catch(InvalidParameter e) {
+			ctx.status(400);
+			ctx.json(e);
+		} catch(ClientNotFound e) {
+			ctx.status(400);
+			ctx.json(e);
+		}
+	};
+	
+	private Handler deleteClientById = (ctx) -> {
+		String id = ctx.pathParam("id");
+		
+		this.clientService.deleteClientById(id);
+		
+	};
+	
+	private Handler addAccount = (ctx) -> {
+		AddOrUpdateAccountDTO dto = ctx.bodyAsClass(AddOrUpdateAccountDTO.class);
+		
+		AccountModel a = this.accountService.addAccount(dto);
+		
+		ctx.json(a);
+		ctx.status(201);
+	};
+	
+	private Handler getAllAccounts = (ctx) -> {
+		List<AccountModel> accounts = this.accountService.getAllAccounts();
+		
+		ctx.json(accounts);
+	};
+	
+	private Handler getAccountById = (ctx) -> {
+		String id = ctx.pathParam("id");
+		
+		try {
+			AccountModel a = this.accountService.getAccountById(id);
+			
+			ctx.json(a);
+		} catch(InvalidParameter e) {
+			ctx.status(400);
+			ctx.json(e);
+		} catch(AccountNotFound e) {
+			ctx.status(400);
+			ctx.json(e);
+		}
+	};
+	
+	private Handler deleteAccountById = (ctx) -> {
+		String id = ctx.pathParam("id");
+		
+		this.accountService.deleteAccountById(id);
+	};
+	
+	public void registerEndpoints(Javalin app) {
+		
+		app.post("/client", addClient);
+		app.get("/client", getAllClients);
+		app.get("/client/{client_id}", getClientById);
+		app.put("client/{client_id}/firstname", editClientFirstName);
+		app.put("client/{client_id}/lastname", editClientLastName);
+		app.put("client/{client_id}/age", editClientAge);
+		app.put("client/{client_id}/address", editClientAddress);
+		app.put("client/{client_id}/phonenumber", editClientPhoneNumber);
+		app.delete("/client/{client_id}", deleteClientById);
+		app.post("/client/{client_id}/account", addAccount);
+		app.get("/client/{client_id}/account", getAllAccounts);
+		app.get("/client/{client_id}/account/{account_id}", getAccountById);
+		app.put("/client/{client_id}/account/{account_id}", editAccountNumber);
+		app.put("/client/{client_id}/account/{account_id}", editAccountType);
+		app.put("/client/{client_id}/account/{account_id}", editAccountAmount);
+		app.delete("/client/{client_id}/account/{account_id}", deleteAccountById);
+	}
+
+}

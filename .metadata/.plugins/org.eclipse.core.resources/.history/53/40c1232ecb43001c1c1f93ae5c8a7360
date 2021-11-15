@@ -1,0 +1,24 @@
+package com.revature.service;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.revature.exceptions.ClientNotFound;
+import com.revature.exceptions.AccountNotFound;
+import com.revature.exceptions.InvalidParameter;
+import com.revature.Dao.ClientDao;
+import com.revature.Dao.AccountDao;
+import com.revature.model.ClientModel;
+import com.revature.model.AccountModel;
+
+public class ServiceTest {
+
+}

@@ -1,0 +1,49 @@
+package com.revature.dto;
+
+import java.util.Objects;
+
+public class EditPhoneNumberDto {
+	
+	private String phoneNumber;
+	
+	public EditPhoneNumberDto() {
+		
+	}
+	
+	public EditPhoneNumberDto(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(phoneNumber);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EditPhoneNumberDto other = (EditPhoneNumberDto) obj;
+		return Objects.equals(phoneNumber, other.phoneNumber);
+	}
+
+	@Override
+	public String toString() {
+		return "EditPhoneNumberDto [phoneNumber=" + phoneNumber + "]";
+	}
+	
+	
+
+}

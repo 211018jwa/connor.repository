@@ -1,0 +1,41 @@
+package com.revature.Dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.revature.model.AccountModel;
+import com.revature.dto.AddOrUpdateAccountDTO;
+import com.revature.util.JDBCUtility;
+
+public class AccountDao {
+	
+	public AccountModel addAccount(AddOrUpdateAccountDTO s2) throws SQLException {
+		try (Connection con = JDBCUtility.getConnection()) {
+			String sql = "INSERT INTO Account (account_number, account_type, account_amount, client_id)"
+						+ "VALUES (?, ?, ?, ?)";
+			PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			pstmt.setString(1, s2.getNumber());
+			pstmt.setString(2, s2.getType());
+			pstmt.setDouble(1, s2.getAmount());
+			
+			int records = pstmt.executeUpdate();
+			
+			if (records != 1) {
+				throw new SQLException("Client unsuccessfully added");
+			}
+			
+			ResultSet results = pstmt.getGeneratedKeys();
+			
+			results.next();
+			int autoGenerate = results.getInt(1);
+			
+			return new AccountModel(autoGenerate, s2.getNumber(), s2.getType(), s2.getAmount());
+		}
+	}
+
+}

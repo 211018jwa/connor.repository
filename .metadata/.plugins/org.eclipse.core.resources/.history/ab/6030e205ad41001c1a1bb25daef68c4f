@@ -1,0 +1,107 @@
+package com.revature.controller;
+
+import com.revature.dto.EditFirstNameDto;
+import com.revature.dto.EditLastNameDto;
+import com.revature.dto.EditAgeDto;
+import com.revature.dto.EditAddressDto;
+import com.revature.dto.EditPhoneNumberDto;
+import com.revature.model.ClientModel;
+import com.revature.model.AccountModel;
+
+import java.util.List;
+
+import com.revature.dto.AddOrUpdateClientDTO;
+import com.revature.dto.AddOrUpdateAccountDTO;
+import com.revature.exceptions.InvalidParameter;
+import com.revature.exceptions.ClientNotFound;
+import com.revature.exceptions.AccountNotFound;
+import com.revature.service.ClientService;
+import com.revature.service.AccountService;
+
+import io.javalin.Javalin;
+import io.javalin.http.Handler;
+
+public class AccountClientController {
+	
+	private ClientService clientService;
+	private AccountService accountService;
+	
+	public AccountClientController() {
+		this.clientService = new ClientService();
+		this.accountService = new AccountService();
+	}
+	
+	private Handler editClientFirstName = (ctx) -> {
+		String clientId = ctx.pathParam("id");
+		int id = Integer.parseInt(clientId);
+		
+		EditFirstNameDto dto = ctx.bodyAsClass(EditFirstNameDto.class);
+		ClientModel clientEdited = this.clientService.editClientsFirstName(clientId, dto.getFirstName());
+		
+		ctx.json(clientEdited);
+	};
+	
+	private Handler editClientLastName = (ctx) -> {
+		String clientId = ctx.pathParam("id");
+		int id = Integer.parseInt(clientId);
+		
+		EditLastNameDto dto = ctx.bodyAsClass(EditLastNameDto.class);
+		ClientModel clientEdited = this.clientService.editClientsLastName(clientId, dto.getLastName());
+		
+		ctx.json(clientEdited);
+		
+	};
+	
+	private Handler editClientAge = (ctx) -> {
+		String clientId = ctx.pathParam("id");
+		int id = Integer.parseInt(clientId);
+		
+		EditAgeDto dto = ctx.bodyAsClass(EditAgeDto.class);
+		ClientModel clientEdited = this.clientService.editClientsAge(clientId, dto.getAge());
+		
+		ctx.json(clientEdited);
+		
+	};
+	
+	private Handler editClientAddress = (ctx) -> {
+		String clientId = ctx.pathParam("id");
+		int id = Integer.parseInt(clientId);
+		
+		EditAddressDto dto = ctx.bodyAsClass(EditAddressDto.class);
+		ClientModel clientEdited = this.clientService.editClientsAddress(clientId, dto.getAddress());
+		
+		ctx.json(clientEdited);
+		
+	};
+	
+	private Handler editClientPhoneNumber = (ctx) -> {
+		String clientId = ctx.pathParam("id");
+		int id = Integer.parseInt(clientId);
+		
+		EditPhoneNumberDto dto = ctx.bodyAsClass(EditPhoneNumberDto.class);
+		ClientModel clientEdited = this.clientService.editClientsPhoneNumber(clientId, dto.getPhoneNumber());
+		
+		ctx.json(clientEdited);
+		
+	};
+	
+	private Handler addClient = (ctx) -> {
+		AddOrUpdateClientDTO dto = ctx.bodyAsClass(AddOrUpdateClientDTO.class);
+		
+		ClientModel c = this.clientService.addClient(dto);
+		
+		ctx.json(c);
+		ctx.status(201);
+	};
+	
+	public void registerEndpoints(Javalin app) {
+		app.patch("client/{id}/firstname", editClientFirstName);
+		app.patch("client/{id}/lastname", editClientLastName);
+		app.patch("client/{id}/age", editClientAge);
+		app.patch("client/{id}/address", editClientAddress);
+		app.patch("client/{id}/phonenumber", editClientPhoneNumber);
+		
+		app.post("/clients", addClient);
+	}
+
+}

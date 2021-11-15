@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="java.sql.DriverManager"/>
+    <fullyQualifiedTypeName name="com.revature.util.JDBCUtility"/>
+    <fullyQualifiedTypeName name="java.sql.SQLException"/>
+    <fullyQualifiedTypeName name="io.javalin.Javalin"/>
+    <fullyQualifiedTypeName name="com.revature.dto.EditFirstNameDto"/>
+    <fullyQualifiedTypeName name="com.revature.dto.EditLastNameDto"/>
+    <fullyQualifiedTypeName name="com.revature.dto.EditAgeDto"/>
+    <fullyQualifiedTypeName name="com.revature.dto.EditAddressDto"/>
+    <fullyQualifiedTypeName name="com.revature.dto.EditPhoneNumberDto"/>
+    <fullyQualifiedTypeName name="com.revature.dto.EditNumberDto"/>
+    <fullyQualifiedTypeName name="com.revature.dto.EditTypeDto"/>
+    <fullyQualifiedTypeName name="com.revature.controller.AccountClientController"/>
+    <fullyQualifiedTypeName name="com.revature.service.ClientService"/>
+    <fullyQualifiedTypeName name="com.revature.service.AccountService"/>
+    <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException"/>
+    <fullyQualifiedTypeName name="com.revature.exceptions.ClientNotFound"/>
+    <fullyQualifiedTypeName name="com.revature.exceptions.AccountNotFound"/>
+    <fullyQualifiedTypeName name="com.revature.exceptions.InvalidParameter"/>
+    <fullyQualifiedTypeName name="com.revature.Dao.ClientDao"/>
+    <fullyQualifiedTypeName name="com.revature.Dao.AccountDao"/>
+    <fullyQualifiedTypeName name="com.revature.model.ClientModel"/>
+    <fullyQualifiedTypeName name="com.revature.model.AccountModel"/>
+    <fullyQualifiedTypeName name="com.revature.dto.AddOrUpdateClientDTO"/>
+    <fullyQualifiedTypeName name="com.revature.dto.AddOrUpdateAccountDTO"/>
+</qualifiedTypeNameHistroy>

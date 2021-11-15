@@ -1,0 +1,49 @@
+package com.revature.dto;
+
+import java.util.Objects;
+
+public class EditAddressDto {
+	
+	private String address;
+	
+	public EditAddressDto() {
+		
+	}
+	
+	public EditAddressDto(String address) {
+		this.address = address;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(address);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EditAddressDto other = (EditAddressDto) obj;
+		return Objects.equals(address, other.address);
+	}
+
+	@Override
+	public String toString() {
+		return "EditAddressDto [address=" + address + "]";
+	}
+	
+	
+
+}

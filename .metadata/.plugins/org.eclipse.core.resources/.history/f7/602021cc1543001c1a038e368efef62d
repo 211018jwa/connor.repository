@@ -1,0 +1,93 @@
+package com.revature.service;
+
+import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.revature.Dao.ClientDao;
+import com.revature.dto.AddOrUpdateClientDTO;
+import com.revature.exceptions.ClientNotFound;
+import com.revature.exceptions.InvalidParameter;
+import com.revature.model.ClientModel;
+
+public class ClientService {
+	
+	private ClientDao clientDao;
+	
+	public ClientService() {
+		this.clientDao = new ClientDao();
+	}
+	
+	public ClientModel addClient (AddOrUpdateClientDTO dto) throws SQLException, InvalidParameter, ClientNotFound {
+		if (dto.getFirstName().trim().equals("") || dto.getLastName().trim().equals("")) {
+			throw new InvalidParameter("First name and/or last name is blank. Please fill them both out");
+		}
+		
+		if (dto.getAge() < 0) {
+			throw new InvalidParameter("Age can't be less than 0. Enter in a valid age.");
+		}
+		
+		if (dto.getAddress().trim().equals("")) {
+			throw new InvalidParameter("Address can't be left blank. Please fill out your address.");
+		}
+		
+		if (dto.getPhoneNumber().trim().equals("")) {
+			throw new InvalidParameter("Phone number cannot have letters or left blank. Please fill out a valid phone number");
+		}
+		
+		dto.setFirstName(dto.getFirstName().trim());
+		dto.setLastName(dto.getLastName().trim());
+		dto.setAddress(dto.getAddress().trim());
+		dto.setPhoneNumber(dto.getPhoneNumber().trim());
+		
+		ClientModel insertClient = this.clientDao.addClient(dto);
+		
+		return insertClient;
+	}
+	
+	public List<ClientModel> getAllClients() throws SQLException {
+		List<ClientModel> clients = this.clientDao.getAllClients();
+		
+		return clients;
+	}
+	
+	public ClientModel getClientById(String clientId) throws SQLException, InvalidParameter, ClientNotFound {
+		
+		try {
+			int id = Integer.parseInt(clientId);
+			
+			ClientModel c = this.clientDao.getClientById(id);
+			
+			if (c == null) {
+				throw new ClientNotFound("Invalid id for client");
+			}
+			return c;
+		}catch(NumberFormatException e) {
+			throw new InvalidParameter("Id provided is not an int");
+		}
+	}
+	
+	public boolean deleteClientById(String clientId) throws InvalidParameter, SQLException, ClientNotFound {
+		try {
+			int id = Integer.parseInt(clientId); 
+			
+			ClientModel client = this.clientDao.getClientById(id);
+			if (client == null) {
+				throw new ClientNotFound("Invalid id, cannot delete client");
+			}
+			
+			return (this.clientDao.deleteClientById(id));
+			
+		} catch(NumberFormatException e) {
+			throw new InvalidParameter("Invalid id has been provided");
+		}
+	}
+
+	public ClientModel editClient(String id, AddOrUpdateClientDTO dto) throws SQLException{
+		int clientId = Integer.parseInt(id);
+		ClientModel clientEditing = this.clientDao.updateClient(clientId, dto);
+		return clientEditing;
+	}
+
+}

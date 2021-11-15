@@ -1,0 +1,56 @@
+package com.revature.service;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.revature.exceptions.ClientNotFound;
+import com.revature.exceptions.AccountNotFound;
+import com.revature.exceptions.InvalidParameter;
+import com.revature.Dao.ClientDao;
+import com.revature.Dao.AccountDao;
+import com.revature.model.ClientModel;
+import com.revature.model.AccountModel;
+
+public class ServiceTest {
+	
+	private ServiceTest sut;
+	
+	@Test
+	public void testGetAllClientsPositive() throws SQLException {
+		
+		ClientDao mockClientDao = mock(ClientDao.class);
+		
+		ClientModel client1 = new ClientModel(10, "James", "Huffington", 24, "1212 Lake Blv", "444 909-8878");
+		ClientModel client2 = new ClientModel(20, "Henry", "Wlliams", 26, "4534 Coral Ave.", "979 0655-0032");
+		ClientModel client3 = new ClientModel(30, "Allison", "Jamie", 28, "999 West Branch Ave.", "888 454-6637");
+		
+		List<ClientModel> clientsFromDao = new ArrayList<>();
+		clientsFromDao.add(client1);
+		clientsFromDao.add(client2);
+		clientsFromDao.add(client3);
+		
+		when(mockClientDao.getAllClients()).thenReturn(clientsFromDao);
+		
+		ClientService clientService = new ClientService(mockClientDao);
+		
+		List<ClientModel> actual = clientService.getAllClients();
+		
+		List<ClientModel> expected = new ArrayList<>();
+		
+		expected.add(new ClientModel(10, "James", "Huffington", 24, "1212 Lake Blv", "444 909-8878"));
+		expected.add(new ClientModel(20, "Henry", "Wlliams", 26, "4534 Coral Ave.", "979 0655-0032"));
+		expected.add(new ClientModel(30, "Allison", "Jamie", 28, "999 West Branch Ave.", "888 454-6637"));
+		
+		Assertions.assertEquals(expected, actual);
+		
+	}
+
+}

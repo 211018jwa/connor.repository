@@ -1,0 +1,42 @@
+package com.revature.service;
+
+import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.revature.Dao.ClientDao;
+import com.revature.dto.AddOrUpdateClientDTO;
+import com.revature.exceptions.ClientNotFound;
+import com.revature.exceptions.InvalidParameter;
+import com.revature.model.ClientModel;
+
+public class ClientService {
+	
+	private ClientDao clientDao;
+	
+	public ClientService() {
+		this.clientDao = new ClientDao();
+	}
+	
+	public ClientModel editClientsFirstName(String clientId, String changeFirstName) throws SQLException, ClientNotFound, InvalidParameter {
+		try {
+			int id = Integer.parseInt(clientId);
+			
+			ClientModel clientEditing = this.clientDao.getClientById(id);
+			
+			if (clientEditing == null) {
+				throw new ClientNotFound("Failed to get that client id.");
+			}
+			
+			AddOrUpdateClientDTO dto = new AddOrUpdateClientDTO(changeFirstName, clientEditing.getLastName(), clientEditing.getAge(), clientEditing.getAddress(), clientEditing.getPhoneNumber());
+			
+			ClientModel updateClient = this.clientDao.updateClient(id, dto);
+			
+			return updateClient;
+		}catch(NumberFormatException e) {
+			throw new InvalidParameter("Id provided is not an int value");
+		}
+	}
+
+}

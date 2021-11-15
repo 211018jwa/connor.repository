@@ -1,0 +1,173 @@
+package com.revature.service;
+
+import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.revature.Dao.AccountDao;
+import com.revature.dto.AddOrUpdateAccountDTO;
+import com.revature.exceptions.AccountNotFound;
+import com.revature.exceptions.InvalidParameter;
+import com.revature.model.AccountModel;
+
+public class AccountService {
+	
+	private AccountDao accountDao;
+	
+	public AccountService() {
+		this.accountDao = new AccountDao();
+	}
+	
+/*	public AccountModel editAccountNumber(String accountId, String changeNumber) throws SQLException, AccountNotFound, InvalidParameter {
+		try {
+			int id = Integer.parseInt(accountId);
+			
+			AccountModel accountEditing = this.accountDao.getAccountById(id);
+			
+			if (accountEditing == null) {
+				throw new AccountNotFound("Failed to get that account id.");
+			}
+			
+			AddOrUpdateAccountDTO dto = new AddOrUpdateAccountDTO(changeNumber, accountEditing.getType(), accountEditing.getAmount(), accountEditing.getClientId());
+			
+			AccountModel updateAccount = this.accountDao.updateAccount(id, dto);
+			
+			return updateAccount;
+		}catch(NumberFormatException e) {
+			throw new InvalidParameter("Id provided is not an int value");
+		}
+	} */
+	
+/*	public AccountModel editAccountType(String accountId, String changeType) throws SQLException, AccountNotFound, InvalidParameter {
+		try {
+			int id = Integer.parseInt(accountId);
+			
+			AccountModel accountEditing = this.accountDao.getAccountById(id);
+			
+			if (accountEditing == null) {
+				throw new AccountNotFound("Failed to get that account id.");
+			}
+			
+			AddOrUpdateAccountDTO dto = new AddOrUpdateAccountDTO(accountEditing.getNumber(), changeType, accountEditing.getAmount(), accountEditing.getClientId());
+			
+			AccountModel updateAccount = this.accountDao.updateAccount(id, dto);
+			
+			return updateAccount;
+		}catch(NumberFormatException e) {
+			throw new InvalidParameter("Id provided is not an int value");
+		}
+	} */
+	
+/*	public AccountModel editAccountAmount(String accountId, double changeAmount) throws SQLException, AccountNotFound, InvalidParameter {
+		try {
+			int id = Integer.parseInt(accountId);
+			
+			AccountModel accountEditing = this.accountDao.getAccountById(id);
+			
+			if (accountEditing == null) {
+				throw new AccountNotFound("Failed to get that account id.");
+			}
+			
+			AddOrUpdateAccountDTO dto = new AddOrUpdateAccountDTO(accountEditing.getNumber(), accountEditing.getType(), changeAmount, accountEditing.getClientId());
+			
+			AccountModel updateAccount = this.accountDao.updateAccount(id, dto);
+			
+			return updateAccount;
+		}catch(NumberFormatException e) {
+			throw new InvalidParameter("Id provided is not an int value");
+		}
+	} */
+	
+/*	public AccountModel editAccountClientId(String accountId, int changeClientId) throws SQLException, AccountNotFound, InvalidParameter {
+		try {
+			int id = Integer.parseInt(accountId);
+			
+			AccountModel accountEditing = this.accountDao.getAccountById(id);
+			
+			if (accountEditing == null) {
+				throw new AccountNotFound("Failed to get that account id.");
+			}
+			
+			AddOrUpdateAccountDTO dto = new AddOrUpdateAccountDTO(accountEditing.getNumber(), accountEditing.getType(), accountEditing.getAmount(), changeClientId);
+			
+			AccountModel updateAccount = this.accountDao.updateAccount(id, dto);
+			
+			return updateAccount;
+		}catch(NumberFormatException e) {
+			throw new InvalidParameter("Id provided is not an int value");
+		}
+	} */
+	
+	public AccountModel addAccount (AddOrUpdateAccountDTO dto) throws SQLException, InvalidParameter, AccountNotFound {
+		if (dto.getNumber().trim().equals("")) {
+			throw new InvalidParameter("Account number cannot be blank. Please fill out your account number");
+		}
+		
+		Set<String> validType = new HashSet<>();
+		validType.add("Checking");
+		validType.add("Savings");
+		
+		if (!validType.contains(dto.getType())) {
+			throw new InvalidParameter("Your account can only accept either the words Checking or Savings");
+		}
+		
+		if (dto.getAmount() < 0) {
+			throw new InvalidParameter("The amount of money you have cannot be less than 0");
+		}
+		
+		if (dto.getClientId() < 0) {
+			throw new InvalidParameter("The client id cannot be 0. Please enter in the Client's id");
+		}
+		
+		dto.setNumber(dto.getNumber().trim());
+		
+		AccountModel insertAccount = this.accountDao.addAccount(dto);
+		
+		return insertAccount;
+	}
+	
+	public List<AccountModel> getAllAccounts() throws SQLException {
+		List<AccountModel> accounts = this.accountDao.getAllAccounts();
+		
+		return accounts;
+	}
+	
+	public AccountModel getAccountById(String accountId) throws SQLException, InvalidParameter, AccountNotFound {
+		
+		try {
+			int id = Integer.parseInt(accountId);
+			
+			AccountModel a = this.accountDao.getAccountById(id);
+			
+			if (a == null) {
+				throw new AccountNotFound("Invalid id for account");
+			}
+			return a;
+		}catch(NumberFormatException e) {
+			throw new InvalidParameter("Id provided is not an int");
+		}
+	}
+	
+	public void deleteAccountById(String accountId) throws InvalidParameter, SQLException, AccountNotFound {
+		try {
+			int id = Integer.parseInt(accountId); 
+			
+			AccountModel client = this.accountDao.getAccountById(id);
+			if (client == null) {
+				throw new AccountNotFound("Invalid id, cannot delete account");
+			}
+			
+			this.accountDao.deleteAccountById(id);
+			
+		} catch(NumberFormatException e) {
+			throw new InvalidParameter("Invalid id has been provided");
+		}
+	}
+
+	public AccountModel editAccount(int id1, int id2, AddOrUpdateAccountDTO dto) throws SQLException {
+		AccountModel accountEditing = this.accountDao.updateAccount(id1, id2, dto);
+		return accountEditing;
+	}
+
+}
