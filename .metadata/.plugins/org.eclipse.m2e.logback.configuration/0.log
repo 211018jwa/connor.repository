@@ -783,3 +783,5 @@
 2021-11-15 17:42:31,846 [Worker-13: Launching ServiceTest] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
 2021-11-15 18:03:45,803 [Worker-17: Launching Application] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
 2021-11-15 18:03:45,810 [Worker-17: Launching Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2021-11-15 18:03:45,812 [Worker-17: Launching Application] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2021-11-15 18:03:45,814 [Worker-17: Launching Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
