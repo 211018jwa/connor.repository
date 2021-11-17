@@ -12,7 +12,7 @@ public class JDBCUtility {
 		
 		String url = "jdbc:postgresql://localhost:5432/postgres";
 		String username = "postgres";
-		String password = "Elephant06";
+		String password = "**********";
 		
 //		String url = System.getenv("db_url");
 //		String username = System.getenv("db_username");
